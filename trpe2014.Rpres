@@ -1,0 +1,53 @@
+Turkish Presidential Elections, 2014
+===
+author: tonesofblue
+date: 2014-08-22
+transition: rotate
+
+Couse Project<br/>
+Developing Data Products<br/>
+Coursera Data Science Specialization
+
+Motivation
+===
+
+- Develop a graphical tool to explore presidential election accross Turkey.
+- Experiment color schemes to obtain better presentation of variation in votes.
+
+R Libraries Used
+===
+
+- The rgdal library is used for mapping.
+- The RColorBrewer library is used to have beautiful color schemes for mapping.
+
+```{r}
+library(rgdal)
+library(RColorBrewer)
+```
+
+Vector Layer and Election Data
+===
+
+```{r, echo=FALSE}
+layer <- readOGR("../layer", "trpe2014")
+head(layer@data)
+```
+
+Sample Plot
+===
+```{r, echo=FALSE}
+par(mfrow = c(2,2), mar = c(0,0,1.1,0))
+ramp <- colorRamp(brewer.pal(4, "RdPu"))
+plot(layer, border="gray", col = rgb(ramp(layer@data[[3]]), max = 255)); title(main = "Erdogan")
+plot(layer, border="gray", col = rgb(ramp(layer@data[[4]]), max = 255)); title(main = "Ihsanoglu")
+plot(layer, border="gray", col = rgb(ramp(layer@data[[5]]), max = 255)); title(main = "Demirtas")
+frame(); box <- par("usr");
+title(main = "Color Ramp")
+x1 <- box[1] + 0.15 * (box[2] - box[1]); x2 <- box[2] - 0.15 * (box[2] - box[1])
+y1 <- box[3] + 0.45 * (box[4] - box[3]); y2 <- box[4] - 0.45 * (box[4] - box[3])
+d <- 1 / 50; u <- d * 0:50; s <- d * (x2 - x1); x <- x1 + u * (x2 - x1)
+rect(x - s / 2, y1, x + s / 2, y2, col = rgb(ramp(u), max = 255), border = NA, xpd = TRUE)
+tu <- c(0, 0.25, 0.5, 0.75, 1); tx <- x1 + tu * (x2 - x1);t <- c("0", "25%", "50%", "75%","100%")
+text(tx, y1 + 0.5 * (y2 - y1), t, xpd = TRUE)
+```
+
