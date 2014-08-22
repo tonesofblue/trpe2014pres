@@ -28,9 +28,9 @@ library(RColorBrewer)
 Vector Layer and Election Data
 ===
 
-```{r, echo=FALSE}
+```{r}
 layer <- readOGR("../layer", "trpe2014")
-head(layer@data)
+head(layer@data, 3)
 ```
 
 Sample Plot
